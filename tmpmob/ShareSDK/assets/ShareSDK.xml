@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<DevInfor>
+<SinaWeibo Id="1" SortId="59" AppKey="568898243" AppSecret="38a4f8204cc784f81f9f0daaf31e02e3" ShareByAppClient="true" Enable="true" RedirectUrl="http://www.sharesdk.cn" />
+<TencentWeibo Id="2" SortId="2" AppKey="801307650" AppSecret="ae36f4ee3946e1cbb98d6965b0b2ff5c" Enable="true" RedirectUri="http://sharesdk.cn" />
+<Douban Id="16" SortId="16" Enable="true" ApiKey="031a96a3aa8b28af094fc3eaffa17a0d" Secret="2e675e730571b75d" RedirectUri="http://mob.com" />
+<QZone Id="3" SortId="3" AppId="100371282" AppKey="aed9b0303e3ed1e27bae87c33761161d" ShareByAppClient="true" BypassApproval="false" Enable="true" />
+<Renren Enable="false" />
+<KaiXin Enable="false" />
+<Facebook Id="8" SortId="8" ShareByAppClient="true" Enable="true" ConsumerKey="527889874525872" ConsumerSecret="1cebd96b61ae6d30de75da2163c83fc3" RedirectUrl="https://www.baidu.com/" />
+<Twitter Id="9" SortId="9" ShareByAppClient="true" Enable="true" ConsumerKey="viOnkeLpHBKs6KXV7MPpeGyzE" ConsumerSecret="NJEglQUy2rqZ9Io9FcAU9p17omFqbORknUpRrCDOK46aAbIiey" CallbackUrl="http://mob.com" />
+<Evernote Id="19" SortId="19" HostType="sandbox" ShareByAppClient="true" Enable="true" ConsumerKey="sharesdk-7807" ConsumerSecret="d05bf86993836004" />
+<FourSquare Enable="false" />
+<GooglePlus Id="21" SortId="21" ShareByAppClient="true" Enable="true" ClientID="236300675100-am5pm8km7md1memjevq8rl9pg5c4s4b8.apps.googleusercontent.com" RedirectUrl="http://localhost" />
+<Instagram Id="28" SortId="28" Enable="true" ClientId="ff68e3216b4f4f989121aa1c2962d058" ClientSecret="1b2e82f110264869b3505c3fe34e31a1" RedirectUri="http://sharesdk.cn" />
+<LinkedIn Id="20" SortId="20" ShareByAppClient="true" Enable="true" ApiKey="ejo5ibkye3vo" SecretKey="cC7B2jpxITqPLZ5M" RedirectUrl="http://sharesdk.cn" />
+<Tumblr Enable="false" />
+<Email Id="12" SortId="12" Enable="true" />
+<ShortMessage Id="13" SortId="13" Enable="true" />
+<Wechat Id="4" SortId="4" AppId="wx4868b35061f87885" AppSecret="64020361b8ec4c99936c0e3999a9f249" userName="gh_afb25ac019c9" path="pages/index/index.html?id=1" WithShareTicket="true" MiniprogramType="0" BypassApproval="false" Enable="true" />
+<WechatMoments Id="5" SortId="5" AppId="wx4868b35061f87885" AppSecret="64020361b8ec4c99936c0e3999a9f249" BypassApproval="false" Enable="true" />
+<QQ Id="7" SortId="7" AppId="100371282" AppKey="aed9b0303e3ed1e27bae87c33761161d" ShareByAppClient="false" BypassApproval="false" Enable="true" />
+<Instapaper Id="38" SortId="38" Enable="true" ConsumerKey="4rDJORmcOcSAZL1YpqGHRI605xUvrLbOhkJ07yO0wWrYrc61FA" ConsumerSecret="GNr1GespOQbrm8nvd7rlUsyRQsIo3boIbMguAl9gfpdL0aKZWe" />
+<Pocket Id="37" SortId="37" Enable="true" ConsumerKey="32741-389c565043c49947ba7edf05" />
+<YouDao Id="17" SortId="17" HostType="product" Enable="true" ConsumerKey="dcde25dca105bcc36884ed4534dab940" ConsumerSecret="d98217b4020e7f1874263795f44838fe" RedirectUri="http://www.sharesdk.cn/" />
+<Pinterest Enable="false" />
+<Flickr Enable="false" />
+<Dropbox Enable="false" />
+<VKontakte Enable="false" />
+<WechatFavorite Id="6" SortId="6" AppId="wx4868b35061f87885" AppSecret="64020361b8ec4c99936c0e3999a9f249" BypassApproval="false" Enable="true" />
+<Yixin Enable="false" />
+<YixinMoments Enable="false" />
+<Mingdao Enable="false" />
+<Line Id="32" SortId="32" callbackscheme="lineauth" Enable="true" ChannelID="1639219273" ChannelSecret="58faad55ffce8bf8f63b59fe6fb702ae" RedirectUri="https://www.mob.com/" />
+<WhatsApp Id="35" SortId="35" Enable="true" />
+<KakaoTalk Enable="false" />
+<KakaoStory Enable="false" />
+<FacebookMessenger Id="39" SortId="39" AppId="107704292745179" Enable="true" />
+<Alipay Id="50" SortId="50" AppId="2015072400185895" Enable="true" />
+<AlipayMoments Id="51" SortId="51" AppId="2015072400185895" Enable="true" />
+<Dingding Id="52" SortId="52" AppId="dingoanxyrpiscaovl4qlw" BypassApproval="false" Enable="true" />
+<Youtube Id="53" SortId="53" AppSecret="AIzaSyAO06g-0TDpHcsXXO918a7QE3Zdct2bB5E" ShareByAppClient="true" Enable="true" ClientID="370141748022-bicrnsjfiije93bvdt63dh3728m4shas.apps.googleusercontent.com" RedirectUrl="http://localhost" />
+<Meipai Id="54" SortId="54" AppSecret="y9ym6rrjjijtkt23qtsc" ShareByAppClient="true" Enable="true" ClientID="1089867596" />
+<Telegram Id="47" SortId="47" AppKey="782826033" Enable="true" RedirectUrl="http://www.mob.com" />
+<Cmcc Id="55" SortId="55" AppId="300011860247" AppKey="2D464D8BFCE73A44B4F9DF95A2FDBE1C" />
+<Reddit Id="56" SortId="56" AppKey="MExDxPuTCtFiRw" RedirectUrl="http://www.sharesdk.cn" />
+<Telecom Id="57" SortId="57" AppKey="8148612606" AppSecret="mCltrhUqwshFa86egDTs0491ibaAulKA" Enable="true" RedirectUrl="http://www.sharesdk.cn" />
+<Accountkit Id="58" SortId="58" AppKey="579465512480462" AppSecret="8a6383652dd9f23fb0994f03d350d0ca" Enable="true" RedirectUrl="http://www.sharesdk.cn/" />
+<Douyin Id="59" SortId="1" AppKey="aw9ivykfjvi4hpwo" AppSecret="42b4caa6bda60bd49f05f06d0a4956e1" Enable="true" />
+<Wework Id="60" SortId="60" AppKey="wwa21eaecf93f0e3ba" AppSecret="dW7e27P7Hc8NiYdRxnbTeOLgfI1ugR72e-PM8uusq2s" AgentId="1000012" Schema="wwautha21eaecf93f0e3ba000012" />
+<HWAccount Enable="false" />
+<Oasis Enable="false" />
+<XMAccount Enable="false" />
+<SnapChat Enable="false" />
+<Kuaishou Enable="false" />
+<Littleredbook Enable="false" />
+<Watermelonvideo Enable="false" />
+</DevInfor>

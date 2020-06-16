@@ -1,0 +1,2 @@
+rootProject.name='我的ShareSdkDemo'
+include ':app'
