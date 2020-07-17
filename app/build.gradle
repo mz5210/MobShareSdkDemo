@@ -18,19 +18,7 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     signingConfigs {
-        config {
-            keyAlias 'demokey.keystore'
-            keyPassword '123456'
-            storeFile file('../demokey.keystore')
-            storePassword '123456'
-        }
         release {
-            keyAlias 'demokey.keystore'
-            keyPassword '123456'
-            storeFile file('../demokey.keystore')
-            storePassword '123456'
-        }
-        debug {
             keyAlias 'demokey.keystore'
             keyPassword '123456'
             storeFile file('../demokey.keystore')
@@ -70,6 +58,7 @@ MobSDK {
     appKey "moba0b0c0d0"
     appSecret "5713f0d88511f9f4cf100cade0610a34"
     delMobTmpDir true
+    mmGuard false
 
     /* MobLink {
          uriScheme "moba0b0c0d0://cn.sharesdk.demo"
@@ -79,9 +68,8 @@ MobSDK {
     //https true
 
     ShareSDK {
-
+//        version "3.7.5"
         loopShare true
-        version "3.7.3"
         //平台配置信息
         devInfo {
             SinaWeibo {
@@ -122,6 +110,7 @@ MobSDK {
                 bypassApproval false
                 enable true
             }
+
 
             //分享QQ小程序专用
             /*QZone {
@@ -356,6 +345,7 @@ MobSDK {
                 sortId 21
                 appId "236300675100-am5pm8km7md1memjevq8rl9pg5c4s4b8.apps.googleusercontent.com"
                 callbackUri "http://localhost"
+                officialVersion "default"
                 shareByAppClient true
                 enable true
             }
@@ -391,7 +381,19 @@ MobSDK {
                 enable true
             }
 
+            KakaoTalk {
+                id 33
+                sortId 33
+                appKey "48d3f524e4a636b08d81b3ceb50f1003"
+                enable true
+            }
 
+            KakaoStory {
+                id 34
+                sortId 34
+                appKey "48d3f524e4a636b08d81b3ceb50f1003"
+                enable true
+            }
             /* app_secret的值为Account Kit 应用密匙 ，不是客户端口令 */
             Accountkit {
                 id 58
@@ -407,6 +409,7 @@ MobSDK {
                 sortId 1
                 appKey "aw9ivykfjvi4hpwo"
                 appSecret "42b4caa6bda60bd49f05f06d0a4956e1"
+//                callbackAct "cn.sharesdk.demo.MainActivity"
                 enable true
             }
 

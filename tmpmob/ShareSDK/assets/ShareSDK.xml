@@ -10,7 +10,7 @@
 <Twitter Id="9" SortId="9" ShareByAppClient="true" Enable="true" ConsumerKey="viOnkeLpHBKs6KXV7MPpeGyzE" ConsumerSecret="NJEglQUy2rqZ9Io9FcAU9p17omFqbORknUpRrCDOK46aAbIiey" CallbackUrl="http://mob.com" />
 <Evernote Id="19" SortId="19" HostType="sandbox" ShareByAppClient="true" Enable="true" ConsumerKey="sharesdk-7807" ConsumerSecret="d05bf86993836004" />
 <FourSquare Enable="false" />
-<GooglePlus Id="21" SortId="21" ShareByAppClient="true" Enable="true" ClientID="236300675100-am5pm8km7md1memjevq8rl9pg5c4s4b8.apps.googleusercontent.com" RedirectUrl="http://localhost" />
+<GooglePlus Id="21" SortId="21" OfficialVersion="default" ShareByAppClient="true" Enable="true" ClientID="236300675100-am5pm8km7md1memjevq8rl9pg5c4s4b8.apps.googleusercontent.com" RedirectUrl="http://localhost" />
 <Instagram Id="28" SortId="28" Enable="true" ClientId="ff68e3216b4f4f989121aa1c2962d058" ClientSecret="1b2e82f110264869b3505c3fe34e31a1" RedirectUri="http://sharesdk.cn" />
 <LinkedIn Id="20" SortId="20" ShareByAppClient="true" Enable="true" ApiKey="ejo5ibkye3vo" SecretKey="cC7B2jpxITqPLZ5M" RedirectUrl="http://sharesdk.cn" />
 <Tumblr Enable="false" />
@@ -32,8 +32,8 @@
 <Mingdao Enable="false" />
 <Line Id="32" SortId="32" callbackscheme="lineauth" Enable="true" ChannelID="1639219273" ChannelSecret="58faad55ffce8bf8f63b59fe6fb702ae" RedirectUri="https://www.mob.com/" />
 <WhatsApp Id="35" SortId="35" Enable="true" />
-<KakaoTalk Enable="false" />
-<KakaoStory Enable="false" />
+<KakaoTalk Id="33" SortId="33" AppKey="48d3f524e4a636b08d81b3ceb50f1003" Enable="true" />
+<KakaoStory Id="34" SortId="34" AppKey="48d3f524e4a636b08d81b3ceb50f1003" Enable="true" />
 <FacebookMessenger Id="39" SortId="39" AppId="107704292745179" Enable="true" />
 <Alipay Id="50" SortId="50" AppId="2015072400185895" Enable="true" />
 <AlipayMoments Id="51" SortId="51" AppId="2015072400185895" Enable="true" />

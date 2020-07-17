@@ -3,12 +3,8 @@ package cn.sharesdk.demo;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
@@ -19,17 +15,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
-import com.mob.tools.utils.BitmapHelper;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.runtime.Permission;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -39,12 +28,12 @@ import cn.sharesdk.alipay.moments.AlipayMoments;
 import cn.sharesdk.dingding.friends.Dingding;
 import cn.sharesdk.douyin.Douyin;
 import cn.sharesdk.facebook.Facebook;
-import cn.sharesdk.facebookmessenger.FacebookMessenger;
 import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.google.GooglePlus;
 import cn.sharesdk.instagram.Instagram;
+import cn.sharesdk.kakao.talk.KakaoTalk;
 import cn.sharesdk.line.Line;
 import cn.sharesdk.linkedin.LinkedIn;
 import cn.sharesdk.onekeyshare.OnekeyShare;
@@ -55,6 +44,7 @@ import cn.sharesdk.twitter.Twitter;
 import cn.sharesdk.wechat.favorite.WechatFavorite;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
+import cn.sharesdk.wework.Wework;
 
 public class ShareSdkActivity extends AppCompatActivity implements View.OnClickListener {
     String nowSharePlatform;
@@ -130,6 +120,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                 })
                 .start();
 
+
     }
 
     @Override
@@ -138,6 +129,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
 
         switch (v.getId()) {
             case R.id.share:
+
                 OnekeyShare oks = new OnekeyShare();
                 // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
                 oks.setTitle("标题");
@@ -170,6 +162,9 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
             case R.id.share_qqkongjian:
                 showChoise(QZone.NAME);
                 break;
+            case R.id.share_qiyeweixin:
+                showChoise(Wework.NAME);
+                break;
             case R.id.share_zhifubaohaoyou:
                 showChoise(Alipay.NAME);
                 break;
@@ -182,8 +177,14 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
             case R.id.share_qqdenglu:
                 login(QQ.NAME);
                 break;
-                case R.id.login_line:
+            case R.id.login_line:
                 login(Line.NAME);
+                break;
+            case R.id.kakao_denglu:
+                login(KakaoTalk.NAME);
+                break;
+            case R.id.login_ins:
+                login(Instagram.NAME);
                 break;
             case R.id.share_google:
                 login(GooglePlus.NAME);
@@ -212,7 +213,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                 showChoise(Line.NAME);
 
                 break;
-                case R.id.share_ins:
+            case R.id.share_ins:
 
                 showChoise(Instagram.NAME);
 
@@ -260,15 +261,17 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
         if (pa.equals(Douyin.NAME)) {
             cities = new String[]{"本地视频", "本地图片"};
         } else if (pa.equals(Instagram.NAME)) {
-            cities = new String[]{"图片", "视频", "本地图片","本地视频"};
-        }else if (pa.equals(QQ.NAME)) {
-            cities = new String[]{"文字","音乐", "图片", "链接", "多图"};
+            cities = new String[]{"图片", "视频", "本地图片", "本地视频"};
+        } else if (pa.equals(QQ.NAME)) {
+            cities = new String[]{"文字", "音乐", "图片", "链接", "多图"};
+        } else if (pa.equals(Wework.NAME)) {
+            cities = new String[]{"文字", "文件", "图片", "本地视频", "链接"};
         } else if (pa.equals(QZone.NAME)) {
             cities = new String[]{"文字", "图片", "链接", "视频"};
         } else if (pa.equals(Twitter.NAME)) {
             cities = new String[]{"文字", "图片", "链接", "视频"};
         } else if (pa.equals(Wechat.NAME)) {
-            cities = new String[]{"本地图片","文字", "图片", "文件", "链接", "音乐", "视频", "表情", "微信小程序"};
+            cities = new String[]{"本地图片", "文字", "图片", "文件", "链接", "音乐", "视频", "表情", "微信小程序"};
         } else if (pa.equals(WechatFavorite.NAME)) {
             cities = new String[]{"文字", "图片", "文件", "链接", "音乐", "视频"};
         } else if (pa.equals(WechatMoments.NAME)) {
@@ -326,13 +329,10 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform platform = ShareSDK.getPlatform(nowSharePlatform);
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setImageUrl("https://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339485237265.jpg");
-//                    shareParams.setText("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+                    shareParams.setText("测试文字");//微博可以分享图片的时候加上文字
                     platform.setPlatformActionListener(platformActionListener);
                     shareParams.setShareType(Platform.SHARE_IMAGE);
                     platform.share(shareParams);
-
-
-
 
 
                 } else if (cities[which].equals("多图")) {
@@ -432,7 +432,9 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Uri uri = data.getData();
                     Platform douyin = ShareSDK.getPlatform(nowSharePlatform);
                     Platform.ShareParams sp = new Platform.ShareParams();
-                    sp.setImagePath(UriUtil.convertUriToPath(this, uri));
+                    String imagePath = UriUtil.convertUriToPath(this, uri);
+                    Log.d("ShareSdkActivity1", imagePath);
+                    sp.setImagePath(imagePath);
                     sp.setShareType(Platform.SHARE_IMAGE);
                     sp.setActivity(this);
                     douyin.setPlatformActionListener(platformActionListener);
