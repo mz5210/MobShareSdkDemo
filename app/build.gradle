@@ -1,5 +1,4 @@
 apply plugin: 'com.android.application'
-apply plugin: 'com.mob.sdk'
 
 android {
     compileSdkVersion 29
@@ -53,12 +52,24 @@ dependencies {
     implementation 'com.yanzhenjie:permission:2.0.3'
 
 }
-MobSDK {
 
+
+
+apply plugin: 'com.mob.sdk'
+MobSDK {
     appKey "moba0b0c0d0"
     appSecret "5713f0d88511f9f4cf100cade0610a34"
     delMobTmpDir true
     mmGuard false
+//    fp true
+    permissions {
+        exclude "android.permission.GET_ACCOUNTS"
+    }
+//    MobApm{
+//        full true
+//    }
+    //禁止自动配置AndroidManifest.xml和ShareSDK.xml
+//    autoConfig false
 
     /* MobLink {
          uriScheme "moba0b0c0d0://cn.sharesdk.demo"
@@ -68,7 +79,7 @@ MobSDK {
     //https true
 
     ShareSDK {
-//        version "3.7.5"
+//        version "3.7.9"
         loopShare true
         //平台配置信息
         devInfo {
@@ -136,10 +147,10 @@ MobSDK {
                 sortId 4
                 appId "wx4868b35061f87885"
                 appSecret "64020361b8ec4c99936c0e3999a9f249"
-                userName "gh_afb25ac019c9"
-                path "pages/index/index.html?id=1"
+//                userName "gh_afb25ac019c9"
+//                path "pages/index/index.html?id=1"
                 withShareTicket true
-                miniprogramType 0
+//                miniprogramType 0
                 bypassApproval false
                 enable true
             }
@@ -196,10 +207,12 @@ MobSDK {
             Facebook {
                 id 8
                 sortId 8
-                appKey "527889874525872"
-                appSecret "1cebd96b61ae6d30de75da2163c83fc3"
-                callbackUri "https://www.baidu.com/"
+                appKey "1412473428822331"
+                appSecret "a42f4f3f867dc947b9ed6020c2e93558"
+                callbackUri "https://mob.com"
                 shareByAppClient true
+                officialVersion "default"//加在Facebook分享本地图片的包
+
                 enable true
             }
 
@@ -276,6 +289,7 @@ MobSDK {
                 appId "ff68e3216b4f4f989121aa1c2962d058"
                 appSecret "1b2e82f110264869b3505c3fe34e31a1"
                 callbackUri "http://sharesdk.cn"
+                shareByAppClient true
                 enable true
             }
             Pocket {
@@ -297,6 +311,7 @@ MobSDK {
                 id 39
                 sortId 39
                 appId "107704292745179"
+                officialVersion "default"//加在Facebook分享本地图片的包
                 enable true
             }
 
@@ -387,7 +402,11 @@ MobSDK {
                 appKey "48d3f524e4a636b08d81b3ceb50f1003"
                 enable true
             }
-
+            Kuaishou {
+                id 68
+                sortId 68
+                enable true
+            }
             KakaoStory {
                 id 34
                 sortId 34

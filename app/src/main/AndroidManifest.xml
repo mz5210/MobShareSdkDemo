@@ -11,17 +11,16 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
-        android:name="com.mob.MobApplication"
+        android:name=".App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
-
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name="cn.sharesdk.WebActivity"></activity>
+        <activity android:name="cn.sharesdk.WebActivity" />
 
         <meta-data
             android:name="Mob-AppKey"
@@ -38,14 +37,24 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+
+        </activity>
+        <activity android:name=".SplashActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity"></activity>
 
+
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
     </application>
 

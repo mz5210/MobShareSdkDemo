@@ -95,6 +95,26 @@
             });
         }
 
+        function shareweixinurl()
+        {
+            var params = {
+                "text" : "测试的文字",
+                "imageUrl" : "http://img0.bdstatic.com/img/image/shouye/tangwei.jpg",
+                "title" : "测试的标题",
+                "url" : "https://www.mob.com",
+                "titleUrl" : "http://sharesdk.cn",
+                "description" : "测试的描述",
+                "site" : "ShareSDK",
+                "siteUrl" : "http://sharesdk.cn",
+                "type" : $sharesdk.ContentType.WebPage
+            };
+            $sharesdk.shareContent($sharesdk.PlatformID.WeChat, params, function (reqId, platform, state, shareInfo, error) {
+
+                alert("state = " + state + "\n shareInfo = " + shareInfo + "\n error = " + JSON.stringify(error));
+
+            });
+        }
+
         function oneKeyShareContentClickHandler()
         {
             var params = {
@@ -202,6 +222,7 @@
     <input type="button" value="是否安装客户端" onclick="isClientValidBtnClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
     <input type="button" value="获取用户信息" onclick="userInfoBtnClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
     <input type="button" value="分享内容" onclick="shareContentClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
+    <input type="button" value="微信分享链接" onclick="shareweixinurl()" style="width: 200px; height: 30px;" /><br /><br/>
     <input type="button" value="一键分享内容" onclick="oneKeyShareContentClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
     <input type="button" value="显示分享菜单" onclick="showShareMenuClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
     <input type="button" value="显示分享界面" onclick="showShareViewClickHandler()" style="width: 200px; height: 30px;" /><br /><br/>
