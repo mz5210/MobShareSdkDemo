@@ -134,23 +134,23 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
             case R.id.share:
                 OnekeyShare oks = new OnekeyShare();
                 // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-                oks.setTitle("标题");
+//                oks.setTitle("标题");
                 // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-                oks.setTitleUrl("https://mz5210.top");
+//                oks.setTitleUrl("https://mz5210.top");
 //                oks.addHiddenPlatform(QQ.NAME);
 //                oks.addHiddenPlatform(Wechat.NAME);
                 // text是分享文本，所有平台都需要这个字段
-                oks.setText("我是分享文本");
+//                oks.setText("我是分享文本");
                 oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
                     @Override
                     public void onShare(Platform platform, Platform.ShareParams shareParams) {
-                        shareParams.setShareType(Platform.SHARE_TEXT);
+                        shareParams.setShareType(Platform.SHARE_IMAGE);
                     }
                 });
                 //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
                 oks.setImageUrl("https://www.tfkjy.cn/scskx/image/20200611/ae7a53f681e538ea4e132f0d9419ccdc.jpg?download=0");
                 // url仅在微信（包括好友和朋友圈）中使用  如果微信是分享图片  那么不要设置URL
-                oks.setUrl("https://mz5210.top");
+//                oks.setUrl("https://mz5210.top");
 
 // 设置自定义的外部回调
                 oks.setCallback(platformActionListener);
@@ -245,7 +245,6 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
             case R.id.share_whatapp:
 
                 showChoise(WhatsApp.NAME);
-
                 break;
         }
     }
@@ -326,7 +325,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
         } else if (pa.equals(QZone.NAME)) {
             cities = new String[]{"文字", "图片", "链接", "视频"};
         } else if (pa.equals(Twitter.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "视频", "授权", "登录"};
+            cities = new String[]{"文字", "图片", "图文", "链接", "视频", "授权", "登录"};
         } else if (pa.equals(Wechat.NAME)) {
             cities = new String[]{"本地图片", "文字", "bitmap图片", "图片", "文件", "链接", "音乐", "视频", "表情", "分享微信小程序", "打开微信小程序", "授权", "登录"};
         } else if (pa.equals(WechatFavorite.NAME)) {
@@ -396,15 +395,15 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                 } else if (cities[which].equals("图文")) {
                     Platform.ShareParams sp = new Platform.ShareParams();
                     sp.setText("测试分享的文本");
-                    sp.setImageUrl("https://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339485237265.jpg");
-                    sp.setShareType(Platform.SHARE_WEBPAGE);
+                    sp.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+//                    sp.setShareType(Platform.SHARE_WEBPAGE);
                     Platform qzone = ShareSDK.getPlatform(pa);
                     qzone.setPlatformActionListener(platformActionListener);
                     qzone.share(sp);
                 } else if (cities[which].equals("图片")) {
                     Platform platform = ShareSDK.getPlatform(nowSharePlatform);
                     Platform.ShareParams shareParams = new Platform.ShareParams();
-                    shareParams.setImageUrl("https://img1.2345.com/duoteimg/qqTxImg/2012/04/09/13339485237265.jpg");
+                    shareParams.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
                     if (!nowSharePlatform.equals(QQ.NAME)) {
                         shareParams.setText("测试文字");//微博可以分享图片的时候加上文字
                     }
