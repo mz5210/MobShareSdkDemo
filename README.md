@@ -1,0 +1,2 @@
+# MobShareSdkDemo
+这是MobTech家ShareSdk的demo，目前只写了一些本人用到的平台
