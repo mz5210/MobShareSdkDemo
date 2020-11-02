@@ -8,12 +8,11 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.mob.MobSDK;
 import com.mob.OperationCallback;
 
-public class SplashActivity extends AppCompatActivity {
+public class SplashActivity extends Activity {
 
 
     @Override
@@ -23,9 +22,9 @@ public class SplashActivity extends AppCompatActivity {
 
         if (!isTaskRoot()) {
             finish();
-            return;
+        }else{
+            init();
         }
-        init();
     }
 
     private void init() {

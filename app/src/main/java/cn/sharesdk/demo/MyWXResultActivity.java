@@ -1,6 +1,5 @@
 package cn.sharesdk.demo;
 
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.util.Log;

@@ -11,7 +11,6 @@ import android.provider.MediaStore;
 import android.provider.OpenableColumns;
 import android.util.Log;
 
-import com.yanzhenjie.permission.util.StringUtils;
 
 import java.io.File;
 import java.io.FileOutputStream;

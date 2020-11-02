@@ -1,6 +1,8 @@
 package cn.sharesdk.demo;
 
+import android.Manifest;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -9,24 +11,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
 
 import com.mob.MobSDK;
-import com.mob.OperationCallback;
-import com.mob.tools.utils.BitmapHelper;
-import com.yanzhenjie.permission.Action;
-import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.runtime.Permission;
 
 import java.util.HashMap;
-import java.util.List;
 
 import cn.sharesdk.WebActivity;
 import cn.sharesdk.alipay.friends.Alipay;
@@ -44,10 +40,10 @@ import cn.sharesdk.instagram.Instagram;
 import cn.sharesdk.kakao.talk.KakaoTalk;
 import cn.sharesdk.line.Line;
 import cn.sharesdk.linkedin.LinkedIn;
-import cn.sharesdk.meipai.ShareActivity;
 import cn.sharesdk.onekeyshare.OnekeyShare;
 import cn.sharesdk.onekeyshare.ShareContentCustomizeCallback;
 import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.telegram.Telegram;
 import cn.sharesdk.tencent.qq.QQ;
 import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.twitter.Twitter;
@@ -57,7 +53,7 @@ import cn.sharesdk.wechat.moments.WechatMoments;
 import cn.sharesdk.wework.Wework;
 import cn.sharesdk.whatsapp.WhatsApp;
 
-public class ShareSdkActivity extends AppCompatActivity implements View.OnClickListener {
+public class ShareSdkActivity extends Activity implements View.OnClickListener {
     String nowSharePlatform;
     String imagePath;
     private ClipboardManager cm;
@@ -109,22 +105,12 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share_sdk);
+        TextView sdk_version = findViewById(R.id.sdk_version);
+        sdk_version.setText("ShareSdkVersion:" + ShareSDK.SDK_VERSION_NAME);
 
-
-        AndPermission.with(this)
-                .runtime()
-                .permission(
-                        Permission.WRITE_EXTERNAL_STORAGE,
-                        Permission.READ_EXTERNAL_STORAGE
-                )
-                .onGranted(new Action<List<String>>() {
-                    @Override
-                    public void onAction(List<String> data) {
-
-                    }
-                })
-                .start();
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
+        }
 
     }
 
@@ -134,23 +120,24 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
             case R.id.share:
                 OnekeyShare oks = new OnekeyShare();
                 // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-//                oks.setTitle("标题");
+                oks.setTitle("标题");
                 // titleUrl是标题的网络链接，仅在Linked-in,QQ和QQ空间使用
-//                oks.setTitleUrl("https://mz5210.top");
+                oks.setTitleUrl("https://mz5210.top");
 //                oks.addHiddenPlatform(QQ.NAME);
 //                oks.addHiddenPlatform(Wechat.NAME);
                 // text是分享文本，所有平台都需要这个字段
-//                oks.setText("我是分享文本");
+                oks.setText("我是分享文本");
                 oks.setShareContentCustomizeCallback(new ShareContentCustomizeCallback() {
                     @Override
                     public void onShare(Platform platform, Platform.ShareParams shareParams) {
-                        shareParams.setShareType(Platform.SHARE_IMAGE);
+                        shareParams.setShareType(Platform.SHARE_WEBPAGE);
                     }
                 });
                 //分享网络图片，新浪微博分享网络图片需要通过审核后申请高级写入接口，否则请注释掉测试新浪微博
+//                oks.setImageUrl("https://img95.699pic.com/photo/40142/3122.gif_wh300.gif");
                 oks.setImageUrl("https://www.tfkjy.cn/scskx/image/20200611/ae7a53f681e538ea4e132f0d9419ccdc.jpg?download=0");
                 // url仅在微信（包括好友和朋友圈）中使用  如果微信是分享图片  那么不要设置URL
-//                oks.setUrl("https://mz5210.top");
+                oks.setUrl("https://mz5210.top");
 
 // 设置自定义的外部回调
                 oks.setCallback(platformActionListener);
@@ -246,11 +233,15 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
 
                 showChoise(WhatsApp.NAME);
                 break;
+                case R.id.Telegram:
+
+                showChoise(Telegram.NAME);
+                break;
         }
     }
 
     private void parasQuickPassWord() {
-        ShareSDK.readPassWord(true, new LoopSharePasswordListener() {
+        ShareSDK.readPassWord(false, new LoopSharePasswordListener() {
             //复制口令中的信息会在var1返回
             @Override
             public void onResult(Object var1) {
@@ -315,47 +306,49 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
         //    指定下拉列表的显示数据
         final String[] cities;
         if (pa.equals(Douyin.NAME)) {
-            cities = new String[]{"本地视频", "本地图片", "授权", "登录"};
+            cities = new String[]{"安装否","本地视频", "本地图片", "授权", "登录"};
         } else if (pa.equals(Instagram.NAME)) {
-            cities = new String[]{"图片", "视频", "本地图片", "本地视频", "授权", "登录"};
+            cities = new String[]{"安装否","图片", "视频", "本地图片", "本地视频", "授权", "登录"};
         } else if (pa.equals(QQ.NAME)) {
-            cities = new String[]{"文字", "音乐", "图片", "链接", "多图", "授权", "登录"};
+            cities = new String[]{"安装否","音乐", "图片", "链接", "多图", "授权", "登录"};
         } else if (pa.equals(Wework.NAME)) {
-            cities = new String[]{"文字", "文件", "图片", "本地视频", "链接", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "文件", "图片", "本地视频", "链接", "授权", "登录"};
         } else if (pa.equals(QZone.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "视频"};
+            cities = new String[]{"安装否","文字", "图片", "链接", "视频"};
         } else if (pa.equals(Twitter.NAME)) {
-            cities = new String[]{"文字", "图片", "图文", "链接", "视频", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "图文", "链接", "视频", "授权", "登录"};
         } else if (pa.equals(Wechat.NAME)) {
-            cities = new String[]{"本地图片", "文字", "bitmap图片", "图片", "文件", "链接", "音乐", "视频", "表情", "分享微信小程序", "打开微信小程序", "授权", "登录"};
+            cities = new String[]{"安装否","本地图片", "文字", "bitmap图片", "图片", "文件", "链接", "音乐", "视频", "表情", "分享微信小程序", "打开微信小程序", "授权", "登录"};
         } else if (pa.equals(WechatFavorite.NAME)) {
-            cities = new String[]{"文字", "图片", "文件", "链接", "音乐", "视频"};
+            cities = new String[]{"安装否","文字", "图片", "文件", "链接", "音乐", "视频"};
         } else if (pa.equals(WechatMoments.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "音乐", "视频"};
+            cities = new String[]{"安装否","文字", "图片", "链接", "音乐", "视频"};
         } else if (pa.equals(Alipay.NAME)) {
-            cities = new String[]{"文字", "图片", "本地图片", "bitmap图片", "链接", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "本地图片", "bitmap图片", "链接", "授权", "登录"};
         } else if (pa.equals(KakaoTalk.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "链接", "授权", "登录"};
         } else if (pa.equals(GooglePlus.NAME)) {
-            cities = new String[]{"授权", "登录"};
+            cities = new String[]{"安装否","授权", "登录"};
         } else if (pa.equals(AlipayMoments.NAME)) {
-            cities = new String[]{"链接"};
+            cities = new String[]{"安装否","链接"};
         } else if (pa.equals(Facebook.NAME)) {
-            cities = new String[]{"链接", "图片", "本地图片", "bitmap图片", "授权", "登录"};
+            cities = new String[]{"安装否","链接", "图片", "本地图片", "bitmap图片", "授权", "登录"};
         } else if (pa.equals(Dingding.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "链接", "授权", "登录"};
         } else if (pa.equals(LinkedIn.NAME)) {
-            cities = new String[]{"文字", "图片", "链接"};
+            cities = new String[]{"安装否","文字", "图片", "链接"};
         } else if (pa.equals(Line.NAME)) {
-            cities = new String[]{"文字", "图片", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "授权", "登录"};
         } else if (pa.equals(SinaWeibo.NAME)) {
-            cities = new String[]{"文字", "图片", "链接", "多图", "授权", "登录"};
+            cities = new String[]{"安装否","文字", "图片", "链接", "多图", "授权", "登录"};
         } else if (pa.equals(WhatsApp.NAME)) {
-            cities = new String[]{"文字", "图片", "图文", "授权", "登录"};
+            cities = new String[]{"安装否","本地图片","文字", "图片", "图文", "授权", "登录"};
         } else if (pa.equals(FacebookMessenger.NAME)) {
-            cities = new String[]{"图片", "本地图片", "链接"};
+            cities = new String[]{"安装否","图片", "本地图片", "链接"};
+        }else if (pa.equals(Telegram.NAME)) {
+            cities = new String[]{"安装否","图片", "本地图片", "文字"};
         } else {
-            cities = new String[]{"链接"};
+            cities = new String[]{"安装否","链接"};
         }
         //    设置一个下拉的列表选择项
         builder.setItems(cities, new DialogInterface.OnClickListener() {
@@ -364,38 +357,46 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                 if (cities[which].equals("链接")) {
 
                     Platform platform = ShareSDK.getPlatform(nowSharePlatform);
+
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     if (nowSharePlatform.equals(Facebook.NAME)) {
                         shareParams.setUrl("https://developers.facebook.com");
-                    } else {
-                        shareParams.setUrl("http://www.mob.com");
+                    } else if (!nowSharePlatform.equals(QQ.NAME)) {
+                        shareParams.setUrl("https://www.mob.com");
                     }
+
                     shareParams.setText("测试分享的文本");
                     shareParams.setTitle("测试分享的标题");
-                    shareParams.setTitleUrl("https://testinnews.nowrupiah.com:8443/h5/signin.html?s=dPiCPq");
-                    shareParams.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+                    shareParams.setTitleUrl("https://www.mob.com");
+//                    shareParams.setImageUrl("https://kgzq.oss-cn-hangzhou.aliyuncs.com/%E5%85%A8%E6%B0%91K%E6%AD%8C%E5%A2%9E%E5%BC%BA/assets/images/app-showcase.png");
+                    shareParams.setImageUrl("https://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
                     shareParams.setShareType(Platform.SHARE_WEBPAGE);
                     platform.setPlatformActionListener(platformActionListener);
                     platform.share(shareParams);
                 } else if (cities[which].equals("文字")) {
+                    Platform qzone = ShareSDK.getPlatform(pa);
+
                     Platform.ShareParams sp = new Platform.ShareParams();
                     sp.setTitle("测试分享的标题");
 //                    sp.setTitleUrl("https://mz5210.top"); // 标题的超链接
                     sp.setText("测试分享的文本");
 //                    sp.setLinkedinDescription("测试分享的文本");
-//                    sp.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+//                    sp.setImageUrl("https://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
 //                    sp.setSite("发布分享的网站名称");
 //                    sp.setSiteUrl("发布分享网站的地址");
 //                    sp.setUrl("https://mz5210.top");
                     sp.setComment("https://mz5210.top");
-                    sp.setShareType(Platform.SHARE_TEXT);
-                    Platform qzone = ShareSDK.getPlatform(pa);
+                    if (KakaoTalk.NAME.equals(pa)) {
+                        sp.setShareType(Platform.KAKAO_TEXT_TEMPLATE);
+                    }else{
+                        sp.setShareType(Platform.SHARE_TEXT);
+                    }
                     qzone.setPlatformActionListener(platformActionListener);
                     qzone.share(sp);
                 } else if (cities[which].equals("图文")) {
                     Platform.ShareParams sp = new Platform.ShareParams();
                     sp.setText("测试分享的文本");
-                    sp.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+                    sp.setImageUrl("https://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
 //                    sp.setShareType(Platform.SHARE_WEBPAGE);
                     Platform qzone = ShareSDK.getPlatform(pa);
                     qzone.setPlatformActionListener(platformActionListener);
@@ -403,9 +404,15 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                 } else if (cities[which].equals("图片")) {
                     Platform platform = ShareSDK.getPlatform(nowSharePlatform);
                     Platform.ShareParams shareParams = new Platform.ShareParams();
-                    shareParams.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
                     if (!nowSharePlatform.equals(QQ.NAME)) {
-                        shareParams.setText("测试文字");//微博可以分享图片的时候加上文字
+                        shareParams.setText("测试文字");
+                    }
+                    if (nowSharePlatform.equals(Facebook.NAME)) {
+                        Bitmap bitmap = ((BitmapDrawable) getResources().getDrawable(R.mipmap.ic_launcher)).getBitmap();
+                        shareParams.setImageData(bitmap);
+                        shareParams.setHashtag("测试文字");//微博可以分享图片的时候加上文字
+                    } else {
+                        shareParams.setImageUrl("https://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
                     }
                     platform.setPlatformActionListener(platformActionListener);
                     shareParams.setShareType(Platform.SHARE_IMAGE);
@@ -430,11 +437,11 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform platform = ShareSDK.getPlatform(nowSharePlatform);
                     Platform.ShareParams shareParams = new Platform.ShareParams();
 //                    List a = new ArrayList();
-//                    a.add("http://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
-//                    a.add("http://y.gtimg.cn/music/photo_new/T002R300x300M0000004dQi53ybc8o.jpg?max_age=2592000");
-//                    a.add("http://y.gtimg.cn/music/photo_new/T002R300x300M000003yQidc3s7P65.jpg?max_age=2592000");
+//                    a.add("https://y.gtimg.cn/music/photo_new/T002R300x300M000003bixR51mDMhB.jpg?max_age=2592000");
+//                    a.add("https://y.gtimg.cn/music/photo_new/T002R300x300M0000004dQi53ybc8o.jpg?max_age=2592000");
+//                    a.add("https://y.gtimg.cn/music/photo_new/T002R300x300M000003yQidc3s7P65.jpg?max_age=2592000");
 //                    shareParams.setImageUrlList(a);
-                    shareParams.setImageArray(new String[]{"http://y.gtimg.cn/music/photo_new/T002R300x300M0000004dQi53ybc8o.jpg?max_age=2592000", "http://y.gtimg.cn/music/photo_new/T002R300x300M000003yQidc3s7P65.jpg?max_age=2592000"});
+                    shareParams.setImageArray(new String[]{"https://y.gtimg.cn/music/photo_new/T002R300x300M0000004dQi53ybc8o.jpg?max_age=2592000", "https://y.gtimg.cn/music/photo_new/T002R300x300M000003yQidc3s7P65.jpg?max_age=2592000"});
                     if (SinaWeibo.NAME.equals(nowSharePlatform)) {
                         shareParams.setText("测试文字");
                     }
@@ -448,9 +455,9 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     shareParams.setText("这是一首歌");
                     shareParams.setTitle("歌名");
 //                    shareParams.setImagePath(ResourcesManager.getInstace(MobSDK.getContext()).getImagePath());
-                    shareParams.setImageUrl("http://y.gtimg.cn/music/photo_new/T002R500x500M000003yQidc3s7P65.jpg?max_age=2592000");
-                    shareParams.setUrl("http://node.kg.qq.com/play?s=--0ay2-IQH5QA-gg&g_f=personal");
-                    shareParams.setTitleUrl("http://node.kg.qq.com/play?s=--0ay2-IQH5QA-gg&g_f=personal");
+                    shareParams.setImageUrl("https://y.gtimg.cn/music/photo_new/T002R500x500M000003yQidc3s7P65.jpg?max_age=2592000");
+                    shareParams.setUrl("https://node.kg.qq.com/play?s=--0ay2-IQH5QA-gg&g_f=personal");
+                    shareParams.setTitleUrl("https://node.kg.qq.com/play?s=--0ay2-IQH5QA-gg&g_f=personal");
                     shareParams.setMusicUrl("https://uploader.shimo.im/f/1v3pE0SzlEO6VN3H.mp3");
                     shareParams.setShareType(Platform.SHARE_MUSIC);
                     platform.setPlatformActionListener(platformActionListener);
@@ -460,8 +467,8 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setText("分享的视频内容");
                     shareParams.setTitle("分享的视频标题");
-                    shareParams.setUrl("http://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4");
-                    shareParams.setImageUrl("http://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
+                    shareParams.setUrl("https://9890.vod.myqcloud.com/9890_4e292f9a3dd011e6b4078980237cc3d3.f20.mp4");
+                    shareParams.setImageUrl("https://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
                     shareParams.setShareType(Platform.SHARE_VIDEO);
                     platform.setPlatformActionListener(platformActionListener);
                     platform.share(shareParams);
@@ -471,12 +478,12 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setText("分享的视频内容");
                     shareParams.setTitle("分享的视频标题");
-                    shareParams.setUrl("http://www.mob.com");
+                    shareParams.setUrl("https://www.mob.com");
                     shareParams.setWxUserName("gh_52568203455c");
                     shareParams.setWxPath("pages/index/index");
-                    //0-正式，1-开发，2-体验MobCommons-2020.0902.2024.jar
+                    //0-正式，1-开发，2-体验
                     shareParams.setWxMiniProgramType(0);
-                    shareParams.setImageUrl("http://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
+                    shareParams.setImageUrl("https://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
                     shareParams.setShareType(Platform.SHARE_WXMINIPROGRAM);
                     platform.setPlatformActionListener(platformActionListener);
                     platform.share(shareParams);
@@ -486,12 +493,12 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setText("分享的视频内容");
                     shareParams.setTitle("分享的视频标题");
-                    shareParams.setUrl("http://www.mob.com");
+                    shareParams.setUrl("https://www.mob.com");
                     shareParams.setWxUserName("gh_52568203455c");
                     shareParams.setWxPath("pages/index/index");
                     //0-正式，1-开发，2-体验
                     shareParams.setWxMiniProgramType(0);
-                    shareParams.setImageUrl("http://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
+                    shareParams.setImageUrl("https://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
                     shareParams.setShareType(Platform.OPEN_WXMINIPROGRAM);
                     platform.setPlatformActionListener(platformActionListener);
                     platform.share(shareParams);
@@ -501,7 +508,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setText("分享的视频内容");
                     shareParams.setTitle("分享的视频标题");
-                    shareParams.setImageUrl("http://bmob.files.mz5210.top/2020/05/27/5fe6be86400577ab80d7c072a2e62a1e.gif");
+                    shareParams.setImageUrl("https://bmob.files.mz5210.top/2020/05/27/5fe6be86400577ab80d7c072a2e62a1e.gif");
 
                     shareParams.setShareType(Platform.SHARE_EMOJI);
                     platform.setPlatformActionListener(platformActionListener);
@@ -529,8 +536,8 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
 //                            public void run() {
 //                                try {
 //
-//                                    String s = BitmapHelper.downloadBitmap(ShareSdkActivity.this, "http://img.youbesun.com/12,01b53fceb825");
-//                                    String s1 = BitmapHelper.downloadBitmap(ShareSdkActivity.this, "http://img.youbesun.com/13,016b76a5d752");
+//                                    String s = BitmapHelper.downloadBitmap(ShareSdkActivity.this, "https://img.youbesun.com/12,01b53fceb825");
+//                                    String s1 = BitmapHelper.downloadBitmap(ShareSdkActivity.this, "https://img.youbesun.com/13,016b76a5d752");
 //                                    Log.d("ShareSdkActivity", s + "    " + s1);
 //                                } catch (Throwable throwable) {
 //                                    throwable.printStackTrace();
@@ -543,12 +550,17 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     ShareSDK.setActivity(ShareSdkActivity.this);//抖音登录适配安卓9.0
                     plat.setPlatformActionListener(platformActionListener);
                     plat.removeAccount(true);
+
                     plat.authorize();
-                } else if (cities[which].equals("登录")) {
+                } else if (cities[which].equals("安装否")) {
+                    Platform plat = ShareSDK.getPlatform(nowSharePlatform);
+                    Toast.makeText(ShareSdkActivity.this, plat.getName() + "    " + plat.isClientValid(), Toast.LENGTH_SHORT).show();
+                }else if (cities[which].equals("登录")) {
                     Platform plat = ShareSDK.getPlatform(nowSharePlatform);
                     ShareSDK.setActivity(ShareSdkActivity.this);//抖音登录适配安卓9.0
                     plat.setPlatformActionListener(platformActionListener);
                     plat.removeAccount(true);
+
                     plat.showUser(null);
                 }
 
@@ -583,7 +595,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                     Platform.ShareParams shareParams = new Platform.ShareParams();
                     shareParams.setText("分享的文件内容");
                     shareParams.setTitle("分享的文标题");
-                    shareParams.setImageUrl("http://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
+                    shareParams.setImageUrl("https://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
                     shareParams.setFilePath(UriUtil.convertUriToPath(this, douyinVideo));
                     shareParams.setShareType(Platform.SHARE_VIDEO);
                     shareParams.setActivity(this);
@@ -598,7 +610,7 @@ public class ShareSdkActivity extends AppCompatActivity implements View.OnClickL
                         Platform.ShareParams shareParams1 = new Platform.ShareParams();
                         shareParams1.setText("分享的文件内容");
                         shareParams1.setTitle("分享的文标题");
-                        shareParams1.setImageUrl("http://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
+                        shareParams1.setImageUrl("https://shp.qpic.cn/ttkg/0/c4baf9eec98089bb047e47ef83f9fafc5981aaac/640?j=PiajxSqBRaEIf0bHhsJQ0QVoFSjos8ibuwib8icMibSGWGru7aj84uAW826V84GUk58dtVGrIjzPEcNIuZJAHJGfHTK6ibpQrN3vf0OGCejp7Xh78UWoLibQragicmI5Xh5UxorhLNlVoBZtMUM");
 
                         shareParams1.setFilePath(PathUtils.getPhotoPathFromContentUri(this, uri1));
                         shareParams1.setShareType(Platform.SHARE_FILE);

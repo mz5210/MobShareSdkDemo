@@ -3,32 +3,34 @@
 buildscript {
     
     repositories {
-        maven {    url "http://mvn.mob.com/android/"}
-
+//        maven {    url "http://mvn.mob.com/android/"}
+//        maven {
+//            url "http://10.18.97.56:8080/job/iMaven/ws/android/"
+//        }
         google()
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
-
+        classpath 'com.android.tools.build:gradle:4.1.0'
         // 注册MobSDK
         classpath "com.mob.sdk:MobSDK:2018.0319.1724"
 //        classpath 'com.mob.sdk:MobSDK-Impl:2020.0818.1321'
-        // NOTE: Do not place your application dependencies here; they belong
-        // in the individual module build.gradle files
+    }
+    configurations.all {
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
     }
 }
 
 allprojects {
     repositories {
-        maven {    url "http://mvn.mob.com/android/"}
-
+//        maven {    url "http://mvn.mob.com/android/"}
+//        maven {
+//            url "http://10.18.97.56:8080/job/iMaven/ws/android/"
+//        }
         google()
         jcenter()
     }
-//    configurations.all {
-//        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
-//    }
+
 }
 
 task clean(type: Delete) {

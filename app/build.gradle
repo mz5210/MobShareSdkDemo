@@ -7,7 +7,7 @@ android {
 
     defaultConfig {
         applicationId "cn.sharesdk.demo"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 100000
         versionName "1.00000"
@@ -40,15 +40,13 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
 //    testImplementation 'junit:junit:4.12'
 //    androidTestImplementation 'androidx.test.ext:junit:1.1.1'
 //    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 
 //    implementation fileTree(dir: 'libs', include: ['*.aar', '*.jar'], exclude: [])
 
-    implementation 'com.yanzhenjie:permission:2.0.3'
+    implementation 'com.google.android:flexbox:2.0.1'
 
 }
 
@@ -56,32 +54,32 @@ dependencies {
 
 apply plugin: 'com.mob.sdk'
 MobSDK {
+//    https true
+//    le true
+
     appKey "moba0b0c0d0"
     appSecret "5713f0d88511f9f4cf100cade0610a34"
-    delMobTmpDir true
-    mmGuard false
+//    delMobTmpDir true
+//    mmGuard false
     fp true
     permissions {
-        exclude "android.permission.GET_ACCOUNTS"
+        exclude "android.permission.GET_ACCOUNTS","android.permission.ACCESS_COARSE_LOCATION"
     }
+
 //    MobApm{
 //        full true
 //    }
     //禁止自动配置AndroidManifest.xml和ShareSDK.xml
 //    autoConfig false
 
-    /* MobLink {
-         uriScheme "moba0b0c0d0://cn.sharesdk.demo"
-         appLinkHost "ahmn.t4m.cn"
-     }*/
-
-    //https true
 
     ShareSDK {
 //        gui false
-        loopShare true
-        //        version "3.7.9"
+//        ffmpeg false
 
+        loopShare true
+//                version "3.7.9"
+//        zxing false
         //平台配置信息
         devInfo {
             SinaWeibo {
@@ -112,7 +110,13 @@ MobSDK {
                 enable true
             }
 
-
+            VKontakte {
+                id 27
+                sortId 27
+                shareByAppClient true
+                appId "3921561"
+                enable true
+            }
             QZone {
                 id 3
                 sortId 3
@@ -186,7 +190,7 @@ MobSDK {
                 sortId 7
                 appId "100371282"
                 appKey "aed9b0303e3ed1e27bae87c33761161d"
-                shareByAppClient false
+                shareByAppClient true
                 bypassApproval false
                 enable true
             }
@@ -205,12 +209,12 @@ MobSDK {
             Facebook {
                 id 8
                 sortId 8
-                appKey "1412473428822331"
-                appSecret "a42f4f3f867dc947b9ed6020c2e93558"
+                appKey "2796236850615578"
+//                appKey "123456789"
+                appSecret "7d353609b517b23a80dcb057995ef30c"
                 callbackUri "https://mob.com"
                 shareByAppClient true
-                officialVersion "default"//加在Facebook分享本地图片的包
-
+//                officialVersion "default"//Facebook本地
                 enable true
             }
 
@@ -426,7 +430,7 @@ MobSDK {
                 sortId 1
                 appKey "aw9ivykfjvi4hpwo"
                 appSecret "42b4caa6bda60bd49f05f06d0a4956e1"
-//                callbackAct "cn.sharesdk.demo.MainActivity"
+//                callbackAct ".ShareSdkActivity"
                 enable true
             }
 

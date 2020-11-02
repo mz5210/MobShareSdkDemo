@@ -1,7 +1,7 @@
 package cn.sharesdk;
 
-import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.webkit.JsResult;
 import android.webkit.WebChromeClient;
@@ -11,7 +11,7 @@ import android.webkit.WebViewClient;
 import cn.sharesdk.demo.R;
 import cn.sharesdk.js.ShareSDKUtils;
 
-public class WebActivity extends AppCompatActivity {
+public class WebActivity extends Activity {
     WebView webView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
