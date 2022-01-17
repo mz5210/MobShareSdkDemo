@@ -1,9 +1,8 @@
-package cn.sharesdk.demo.wxapi;
+package cn.sharesdk.demo.wxapi_back;
 
 import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
-
 import cn.sharesdk.wechat.utils.WXAppExtendObject;
 import cn.sharesdk.wechat.utils.WXMediaMessage;
 import cn.sharesdk.wechat.utils.WechatHandlerActivity;
