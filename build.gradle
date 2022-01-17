@@ -1,17 +1,31 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+ext{
+    VERSION_COMPILE_SDK = 31
+    VERSION_MIN_SDK = 19
+    VERSION_TARGET_SDK = 31
+    BUILDTOOLSVERSION = "30.0.3"
+    SOURCE_COMPATIBILITY = JavaVersion.VERSION_1_8
 
+}
 buildscript {
-    
+
     repositories {
-//        maven {    url "http://mvn.mob.com/android/"}
+        google()
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
+        }
+        maven {    url "https://mvn.mob.com/android/"}
+//        maven{ url 'https://maven.aliyun.com/nexus/content/groups/public/' }
+//        maven{ url'https://maven.aliyun.com/nexus/content/repositories/jcenter'}
 //        maven {
 //            url "http://10.18.97.56:8080/job/iMaven/ws/android/"
 //        }
-        google()
-        jcenter()
+        maven { url 'https://jitpack.io' }
+
+        mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.0.2'
         // 注册MobSDK
         classpath "com.mob.sdk:MobSDK:2018.0319.1724"
 //        classpath 'com.mob.sdk:MobSDK-Impl:2020.0818.1321'
@@ -23,14 +37,21 @@ buildscript {
 
 allprojects {
     repositories {
-//        maven {    url "http://mvn.mob.com/android/"}
+        google()
+        maven {
+            url 'https://maven.aliyun.com/repository/public/'
+        }
+        maven {    url "https://mvn.mob.com/android/"}
 //        maven {
 //            url "http://10.18.97.56:8080/job/iMaven/ws/android/"
 //        }
-        google()
-        jcenter()
-    }
+        maven { url 'https://jitpack.io' }
 
+        mavenCentral()
+    }
+    configurations.all {
+        resolutionStrategy.cacheDynamicVersionsFor 0, 'seconds'
+    }
 }
 
 task clean(type: Delete) {

@@ -23,30 +23,9 @@ public class SplashActivity extends Activity {
         if (!isTaskRoot()) {
             finish();
         }else{
-            init();
+            startActivity(new Intent(SplashActivity.this, ShareSdkActivity.class));
+            finish();
         }
-    }
-
-    private void init() {
-        MobSDK.submitPolicyGrantResult(true, new OperationCallback<Void>() {
-            @Override
-            public void onComplete(Void aVoid) {
-                Toast.makeText(SplashActivity.this, "隐私协议成功 ", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onFailure(Throwable throwable) {
-                Toast.makeText(SplashActivity.this, "隐私协议成功 throwable " + throwable.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                startActivity(new Intent(SplashActivity.this, ShareSdkActivity.class));
-            }
-        }, 1000);
-
     }
 
     /**

@@ -1,4 +1,5 @@
 package cn.sharesdk.demo;
 
-class Test {
+public class Test {
+
 }

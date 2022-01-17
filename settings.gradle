@@ -1,2 +1,4 @@
 rootProject.name='我的ShareSdkDemo'
 include ':app'
+include ':offline'
+include ':online'

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="cn.sharesdk.demo">
 
     <uses-permission android:name="android.permission.INTERNET" /> <!-- 允许应用程序联网（必须） -->
@@ -7,8 +8,8 @@
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" /> <!-- 允许改变网络连接状态（必须） -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 允许访问网络状态（必须） -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" /> <!-- 允许改变WIFI状态（非必须） -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+<!--    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />-->
+<!--    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />-->
 
     <application
         android:name=".App"
@@ -18,27 +19,42 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:requestLegacyExternalStorage="true"
-        android:usesCleartextTraffic="true">
-        <activity android:name="cn.sharesdk.WebActivity" />
+        android:usesCleartextTraffic="false"
+        tools:replace="android:usesCleartextTraffic"
+        >
+
 <!--        android:requestLegacyExternalStorage="true"-->
 
-<!--        <meta-data-->
-<!--            android:name="Mob-AppKey"-->
-<!--            android:value="moba0b0c0d0" />-->
-<!--        <meta-data-->
-<!--            android:name="Mob-AppSecret"-->
-<!--            android:value="5713f0d88511f9f4cf100cade0610a34" />-->
+        <activity android:name="cn.sharesdk.WebActivity" android:exported="false"/>
+<!--        <activity-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"-->
+<!--            android:name="cn.sharesdk.loopshare.LoopShareActivity"-->
+<!--            android:launchMode="singleTask">-->
+<!--            <intent-filter>-->
+<!--                <action-->
+<!--                    android:name="android.intent.action.VIEW" />-->
+<!--                <category-->
+<!--                    android:name="android.intent.category.DEFAULT" />-->
+<!--                <category-->
+<!--                    android:name="android.intent.category.BROWSABLE" />-->
+<!--                <data-->
+<!--                    android:scheme="ssdk${Mob_Key}"-->
+<!--                    android:host="cn.sharesdk.loop" />-->
+<!--            </intent-filter>-->
+<!--        </activity>-->
+
 
         <activity
+            android:exported="false"
             android:name=".ShareSdkActivity">
-            <intent-filter>
-                <action android:name="douyin.callback.action" />
-                <category android:name="android.intent.category.DEFAULT" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="douyin.callback.action" />-->
+<!--                <category android:name="android.intent.category.DEFAULT" />-->
+<!--            </intent-filter>-->
 
         </activity>
-        <activity android:name=".SplashActivity" >
+        <activity android:name=".SplashActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -47,14 +63,22 @@
         </activity>
 
 
-        <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:exported="true"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-
+<!--        <activity-->
+<!--            android:name=".wxapi.WXEntryActivity"-->
+<!--            android:configChanges="keyboardHidden|orientation|screenSize"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTask"-->
+<!--            android:screenOrientation="portrait"-->
+<!--            android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths" />
+        </provider>
     </application>
 
 </manifest>

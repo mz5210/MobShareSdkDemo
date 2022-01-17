@@ -1,4 +1,4 @@
-package cn.sharesdk.demo.wxapi_back;
+package cn.sharesdk.demo.wxapi;
 
 import android.content.Intent;
 import android.util.Log;
